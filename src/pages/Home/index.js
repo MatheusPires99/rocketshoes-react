@@ -1,7 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FaSpinner } from "react-icons/fa";
 import { MdAddShoppingCart } from "react-icons/md";
 import { formatPrice } from "../../util/format";
@@ -11,81 +9,66 @@ import * as CartAction from "../../store/modules/cart/actions";
 
 import { Container, ProductList } from "./styles";
 
-class Home extends Component {
-  static propTypes = {
-    dispatch: PropTypes.shape({
-      dispatch: PropTypes.func
-    }).isRequired
-  };
+export default function Home() {
+  const amount = useSelector(state =>
+    state.cart.reduce((sumAmount, product) => {
+      sumAmount[product.id] = product.amount;
 
-  state = {
-    products: [],
-    loading: true
-  };
+      return sumAmount;
+    }, {})
+  );
 
-  async componentDidMount() {
-    const response = await api.get("products");
+  const dispatch = useDispatch();
 
-    const data = response.data.map(product => ({
-      ...product,
-      priceFormatted: formatPrice(product.price)
-    }));
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    this.setState({
-      products: data,
-      loading: false
-    });
+  useEffect(() => {
+    async function loadProducts() {
+      const response = await api.get("products");
+
+      const data = response.data.map(product => ({
+        ...product,
+        priceFormatted: formatPrice(product.price)
+      }));
+
+      setProducts(data);
+      setLoading(false);
+    }
+
+    loadProducts();
+  }, []);
+
+  function handleAddProduct(id) {
+    dispatch(CartAction.addToCartRequest(id));
   }
 
-  handleAddProduct = id => {
-    const { addToCartRequest } = this.props;
+  return (
+    <Container loading={loading}>
+      {loading ? (
+        <FaSpinner color="#FFF" size={36} />
+      ) : (
+        <ProductList>
+          {products.map(product => (
+            <li key={product.id}>
+              <img src={product.image} alt={product.title} />
+              <strong>{product.title}</strong>
+              <span>{product.priceFormatted}</span>
 
-    addToCartRequest(id);
-  };
-
-  render() {
-    const { products, loading } = this.state;
-    const { amount } = this.props;
-
-    return (
-      <Container loading={loading}>
-        {loading ? (
-          <FaSpinner color="#FFF" size={36} />
-        ) : (
-          <ProductList>
-            {products.map(product => (
-              <li key={product.id}>
-                <img src={product.image} alt={product.title} />
-                <strong>{product.title}</strong>
-                <span>{product.priceFormatted}</span>
-
-                <button
-                  type="button"
-                  onClick={() => this.handleAddProduct(product.id)}
-                >
-                  <div>
-                    <MdAddShoppingCart size={16} color="#fff" />{" "}
-                    {amount[product.id] || 0}
-                  </div>
-                  <span>ADICIONAR AO CARRINHO</span>
-                </button>
-              </li>
-            ))}
-          </ProductList>
-        )}
-      </Container>
-    );
-  }
+              <button
+                type="button"
+                onClick={() => handleAddProduct(product.id)}
+              >
+                <div>
+                  <MdAddShoppingCart size={16} color="#fff" />{" "}
+                  {amount[product.id] || 0}
+                </div>
+                <span>ADICIONAR AO CARRINHO</span>
+              </button>
+            </li>
+          ))}
+        </ProductList>
+      )}
+    </Container>
+  );
 }
-
-const mapStateToProps = state => ({
-  amount: state.cart.reduce((amount, product) => {
-    amount[product.id] = product.amount;
-
-    return amount;
-  }, {})
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(CartAction, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);

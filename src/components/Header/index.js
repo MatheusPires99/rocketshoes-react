@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { MdShoppingCart, MdRemoveShoppingCart, MdDelete } from "react-icons/md";
 
@@ -21,7 +20,26 @@ import {
 
 import logo from "../../assets/images/logo.svg";
 
-function Header({ cart, total, amount, removeFromCart }) {
+export default function Header() {
+  const cart = useSelector(state => state.cart);
+  const cartSize = useSelector(state => state.cart.length);
+  const amount = useSelector(state =>
+    state.cart.reduce((sumAmount, product) => {
+      sumAmount[product.id] = product.amount;
+
+      return sumAmount;
+    }, {})
+  );
+  const total = useSelector(state =>
+    formatPrice(
+      state.cart.reduce((totalSum, product) => {
+        return totalSum + product.price * product.amount;
+      }, 0)
+    )
+  );
+
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <Link to="/">
@@ -32,13 +50,13 @@ function Header({ cart, total, amount, removeFromCart }) {
         <ButtonGoCheckout to="/cart">
           <div className="suport">
             <strong>Meu carrinho</strong>
-            <span>{cart.length} itens</span>
+            <span>{cartSize} itens</span>
           </div>
           <MdShoppingCart size={36} color="#FFF" />
         </ButtonGoCheckout>
 
-        <CartList cartLength={cart.length}>
-          {cart.length ? (
+        <CartList cartLength={cartSize}>
+          {cartSize ? (
             <>
               {cart.map(product => (
                 <li key={product.id}>
@@ -48,7 +66,9 @@ function Header({ cart, total, amount, removeFromCart }) {
 
                   <button
                     type="button"
-                    onClick={() => removeFromCart(product.id)}
+                    onClick={() =>
+                      dispatch(CartActions.removeFromCart(product.id))
+                    }
                   >
                     <MdDelete color="#7159c1" size={20} />
                   </button>
@@ -73,22 +93,3 @@ function Header({ cart, total, amount, removeFromCart }) {
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  cart: state.cart,
-  amount: state.cart.reduce((amount, product) => {
-    amount[product.id] = product.amount;
-
-    return amount;
-  }, {}),
-  total: formatPrice(
-    state.cart.reduce((total, product) => {
-      return total + product.price * product.amount;
-    }, 0)
-  )
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
