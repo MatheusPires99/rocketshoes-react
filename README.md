@@ -1,10 +1,11 @@
 <h1 align="center">
-    <img alt="GoStack" src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/bootcamp-header.png" width="200px" />
+    <img alt="GoStack" src="https://ik.imagekit.io/hwyksvj4iv/rocketshoes_-t4_Ti_qH.svg" width="300px" />
+    <p align="center">
+      <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/MatheusPires99/rocketshoes-react">
+      <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/MatheusPires99/rocketshoes-react">
+      <img alt="Repository size" src="https://img.shields.io/github/repo-size/MatheusPires99/rocketshoes-react">
+    </p>
 </h1>
-
-<h3 align="center">
-  Módulo 07
-</h3>
 
 ## :rocket: Arquitetura Flux
 
