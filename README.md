@@ -5,6 +5,9 @@
       <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/MatheusPires99/rocketshoes-react">
       <img alt="Repository size" src="https://img.shields.io/github/repo-size/MatheusPires99/rocketshoes-react">
     </p>
+    <p align="center">
+      <a href="https://rocketshoes-gostack.netlify.app/">Demo da aplicação</a>
+    </p>
 </h1>
 
 ## :rocket: Arquitetura Flux
