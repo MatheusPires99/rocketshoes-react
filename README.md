@@ -1,4 +1,4 @@
-<h1 align="center">
+<h3 align="center">
     <img alt="GoStack" src="https://ik.imagekit.io/hwyksvj4iv/rocketshoes_-t4_Ti_qH.svg" width="300px" />
     <p align="center">
       <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/MatheusPires99/rocketshoes-react">
@@ -8,7 +8,7 @@
     <p align="center">
       <a href="https://rocketshoes-gostack.netlify.app/">Demo da aplicação</a>
     </p>
-</h1>
+</h3>
 
 ## :rocket: Arquitetura Flux
 
