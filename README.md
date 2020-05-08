@@ -1,14 +1,15 @@
-<h3 align="center">
+<h1 align="center">
     <img alt="GoStack" src="https://ik.imagekit.io/hwyksvj4iv/rocketshoes_-t4_Ti_qH.svg" width="300px" />
     <p align="center">
       <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/MatheusPires99/rocketshoes-react">
       <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/MatheusPires99/rocketshoes-react">
       <img alt="Repository size" src="https://img.shields.io/github/repo-size/MatheusPires99/rocketshoes-react">
     </p>
-    <p align="center">
-      <a href="https://rocketshoes-gostack.netlify.app/">Demo da aplicação</a>
-    </p>
-</h3>
+</h1>
+
+<p align="center">
+  <a href="https://rocketshoes-gostack.netlify.app/">Demo da aplicação</a>
+</p>
 
 ## :rocket: Arquitetura Flux
 
